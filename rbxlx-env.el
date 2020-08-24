@@ -25,7 +25,7 @@
 
 ;;; Commentary:
 
-;; Unzip and zip scripts from and to Roblox Place files with .rbxlx extension.
+;; Extract and reintegrate Lua code in Roblox Place (.rbxlx) files.
 
 ;;; Code:
 

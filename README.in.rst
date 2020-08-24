@@ -15,13 +15,13 @@ Clone this repo then::
    cp [your .rbxlx file] .
    make unfurl
 
-This extracts all Lua_ scripts into ``./src``.  You may now apply all your normal tools, e.g., git, emacs, etc., to your code.  To recompose the ``.rbxlx`` file::
+This extracts all Lua_ scripts into ``./src``.  You may now apply all your normal tools, e.g., git, emacs, etc., to the code.  To recompose the ``.rbxlx`` file::
 
    make furl
 
 Typical Linux Workflow
 ======================
-Identify the parent directory of your ``.rbxlx`` file in ``$HOME/.wine``.  A typical Wine_ installation might have it in ``$HOME/.win/drive_c/users/$(whoami)``.  Assuming this,::
+Identify the parent directory of your ``.rbxlx`` file in ``$HOME/.wine``.  A typical Wine_ installation might have it in ``$HOME/.wine/drive_c/users/$(whoami)``.  Assuming this,::
 
    ln -s $HOME/.wine/drive_c/users/$(whoami) ./drive_c
    ln -s drive_c/[your rbxlx file] .
