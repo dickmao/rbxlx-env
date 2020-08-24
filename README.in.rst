@@ -27,7 +27,7 @@ Identify the parent directory of your ``.rbxlx`` file in ``$HOME/.wine``.  A typ
    ln -s drive_c/[your rbxlx file] .
    make
 
-Continue using Roblox Studio for all non-editing tasks, i.e., creating and manipulating Roblox objects in Explorer.  Suppose you create a new LocalScript_ in ReplicatedStorage_ and name it "Sword", and now want to edit it.  Save in Studio and run::
+Continue using Roblox Studio for all non-editing tasks, i.e., creating and manipulating game objects in Explorer.  Suppose you create a new LocalScript_ in ReplicatedStorage_ and name it "Sword", and now want to edit it with a `reasonable editor`_.  Save in Studio and run::
 
    make unfurl
 
@@ -39,3 +39,4 @@ The new LocalScript will now appear in ``./src`` under ``ReplicatedStorage/Sword
 .. _ReplicatedStorage: https://developer.roblox.com/en-us/api-reference/class/ReplicatedStorage
 .. _Projectile: https://github.com/bbatsov/projectile
 .. _Rojo: https://github.com/Roblox/rojo
+.. _reasonable editor: https://savannah.gnu.org/projects/emacs
