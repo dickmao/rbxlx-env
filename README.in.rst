@@ -15,7 +15,7 @@ Clone this repo then::
    cp [your .rbxlx file] .
    make unfurl
 
-This extracts all scripts into ``./src``.  You may now apply all your normal tools, e.g., git, emacs, etc.  To reconstitute the ``.rbxlx`` file::
+This extracts all scripts into ``./src``.  You may now apply all your normal tools, e.g., git, emacs, etc.  To reconstitute the ``.rbxlx`` file from (the presumably modified) ``./src``::
 
    make furl
 
@@ -23,6 +23,7 @@ Typical Linux Workflow
 ======================
 Identify the parent directory of your ``.rbxlx`` file in ``$HOME/.wine``.  A typical Wine_ installation might have it in ``$HOME/.wine/drive_c/users/$(whoami)``.  Assuming this::
 
+   cd rbxlx-env
    ln -s $HOME/.wine/drive_c/users/$(whoami) ./drive_c
    ln -s drive_c/[your rbxlx file] .
    make
