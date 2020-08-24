@@ -1,6 +1,6 @@
-;;; rbxlx.el --- Roblox development with a reasonable editor -*- lexical-binding: t; coding: utf-8 -*-
+;;; rbxlx-env.el --- Roblox development with a reasonable editor -*- lexical-binding: t; coding: utf-8 -*-
 
-;; Copyright (C) 2020 The Authors of rbxlx.el
+;; Copyright (C) 2020 The Authors of rbxlx-env.el
 
 ;; Authors: dickmao <github id: dickmao>
 ;; Version: 0.1.0
@@ -21,7 +21,7 @@
 ;; GNU General Public License for more details.
 
 ;; You should have received a copy of the GNU General Public License
-;; along with rbxlx.el.  If not, see <https://www.gnu.org/licenses/>.
+;; along with rbxlx-env.el.  If not, see <https://www.gnu.org/licenses/>.
 
 ;;; Commentary:
 
@@ -161,4 +161,4 @@
         (let (kill-buffer-query-functions)
           (kill-buffer))))))
 
-(provide 'rbxlx)
+(provide 'rbxlx-env)
