@@ -25,7 +25,9 @@
 
 ;;; Commentary:
 
-;; Extract and reintegrate Lua code in Roblox Place (.rbxlx) files.
+;; Extract and reintegrate Lua_ code from Roblox Place (.rbxlx) files.
+
+;; Rojo_ does something similar, with considerably more fanfare.
 
 ;;; Code:
 
