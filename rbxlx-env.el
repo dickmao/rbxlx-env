@@ -6,7 +6,6 @@
 ;; Version: 0.1.0
 ;; Keywords: games tools
 ;; URL: https://github.com/dickmao/rbxlx
-;; Package-Requires: ((emacs "25.1") (dash "20190401") (dash-functional "20180107") (anaphora "20180618"))
 
 ;; This file is NOT part of GNU Emacs.
 
@@ -32,7 +31,6 @@
 ;;; Code:
 
 (require 'subr-x)
-(require 'anaphora)
 (require 'dash)
 (require 'dash-functional)
 
@@ -44,6 +42,47 @@
 (defun rbxlx--write-source (file source)
   (make-directory (file-name-directory file) t)
   (write-region source nil file))
+
+(defun rbxlx-alist-get (key alist &optional default remove testfn)
+  "Replicated library function for emacs-25.
+
+Same argument meanings for KEY ALIST DEFAULT REMOVE and TESTFN."
+  (ignore remove)
+  (let ((x (if (not testfn)
+               (assq key alist)
+             (assoc key alist))))
+    (if x (cdr x) default)))
+
+(gv-define-expander rbxlx-alist-get
+  (lambda (do key alist &optional default remove testfn)
+    (macroexp-let2 macroexp-copyable-p k key
+      (gv-letplace (getter setter) alist
+        (macroexp-let2 nil p `(if (and ,testfn (not (eq ,testfn 'eq)))
+                                  (assoc ,k ,getter)
+                                (assq ,k ,getter))
+          (funcall do (if (null default) `(cdr ,p)
+                        `(if ,p (cdr ,p) ,default))
+                   (lambda (v)
+                     (macroexp-let2 nil v v
+                       (let ((set-exp
+                              `(if ,p (setcdr ,p ,v)
+                                 ,(funcall setter
+                                           `(cons (setq ,p (cons ,k ,v))
+                                                  ,getter)))))
+                         `(progn
+                            ,(cond
+                             ((null remove) set-exp)
+                             ((or (eql v default)
+                                  (and (eq (car-safe v) 'quote)
+                                       (eq (car-safe default) 'quote)
+                                       (eql (cadr v) (cadr default))))
+                              `(if ,p ,(funcall setter `(delq ,p ,getter))))
+                             (t
+                              `(cond
+                                ((not (eql ,default ,v)) ,set-exp)
+                                (,p ,(funcall setter
+                                              `(delq ,p ,getter))))))
+                            ,v))))))))))
 
 (defun rbxlx--tailrec (item path dir)
   "Recurse on XML"
@@ -69,7 +108,7 @@
              (when (string= "Source" (alist-get 'name (cl-second x)))
                (unless (cl-third x)
                  (setf (nthcdr 2 x) (list "")))
-               (setf (alist-get script-path rbxlx-insertion-points nil nil #'equal)
+               (setf (rbxlx-alist-get script-path rbxlx-insertion-points nil nil #'equal)
                      `(:scriptguid ,scriptguid :place ,(gv-ref (cl-third x))))
                (rbxlx--write-source
                 (expand-file-name (format "%s.lua" descriptor)
@@ -90,7 +129,7 @@
   (let* ((truename (abbreviate-file-name (file-truename rbxlx)))
          (number (nthcdr 10 (file-attributes truename)))
          (buffer (find-file-noselect-1 (create-file-buffer rbxlx)
-                                      rbxlx t nil truename number)))
+                                       rbxlx t nil truename number)))
     (with-current-buffer buffer
       (unwind-protect
           (let* ((xml (libxml-parse-xml-region (point-min) (point-max)))
@@ -102,18 +141,17 @@
                        (lambda (node) (stringp (alist-get 'class (cl-second node))))
                        rbxlx-roblox))
                  (dir (make-temp-file "rbxlx-unfurl-" t)))
-            (mapcar (-rpartial 'rbxlx--tailrec nil dir) top)
+            (mapc (-rpartial 'rbxlx--tailrec nil dir) top)
             dir)
         (basic-save-buffer)
         (let (kill-buffer-query-functions)
           (kill-buffer))))))
 
-;; (print-out (caddr rbxlx-roblox))
-
 ;;;###autoload
 (defun rbxlx-furl (rbxlx path)
   "Walk PATH and replace corresponding Source nodes in `rbxlx-insertion-points'."
-  (let* ((skip (length (split-string path "/")))
+  (let* ((path (file-relative-name path))
+         (skip (length (split-string path "/")))
          (truename (abbreviate-file-name (file-truename rbxlx)))
          (number (nthcdr 10 (file-attributes truename)))
          (buffer (find-file-noselect-1 (create-file-buffer rbxlx)
@@ -133,10 +171,11 @@
                     (delete-region pos (match-beginning 0)))))))
           (mapcar
            (lambda (lua)
-             (-when-let* ((key (reverse (cl-subseq
+             (-when-let* ((lua (file-relative-name lua))
+                          (key (reverse (cl-subseq
                                          (split-string (directory-file-name (file-name-directory lua)) "/")
                                          skip)))
-                          (plst (alist-get key rbxlx-insertion-points nil nil #'equal))
+                          (plst (rbxlx-alist-get key rbxlx-insertion-points nil nil #'equal))
                           (new-cdata (with-temp-buffer
                                        (insert-file-contents lua)
                                        (buffer-string))))

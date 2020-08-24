@@ -1,4 +1,5 @@
 LIBDIR := ..
+CASK_LOC := ..
 include ../Makefile
 
 .DEFAULT_GOAL := test-rbxlx-env
