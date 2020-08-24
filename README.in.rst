@@ -15,7 +15,7 @@ Clone this repo then::
    cp [your .rbxlx file] .
    make unfurl
 
-This extracts all scripts into ``./src``.  You may now apply all your normal tools, e.g., git, emacs, etc., to the code.  To reconstitute the ``.rbxlx`` file::
+This extracts all scripts into ``./src``.  You may now apply all your normal tools, e.g., git, emacs, etc.  To reconstitute the ``.rbxlx`` file::
 
    make furl
 

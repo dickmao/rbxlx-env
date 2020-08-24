@@ -1,6 +1,7 @@
 |build-status|
 
-Extract and reintegrate Lua code in Roblox Place (.rbxlx) files.
+Extract and reintegrate Lua_ code from Roblox Place (.rbxlx) files.
+Rojo_ does something similar, with considerably more fanfare.
 
 .. |build-status|
    image:: https://github.com/dickmao/rbxlx-env/workflows/CI/badge.svg
@@ -15,13 +16,13 @@ Clone this repo then::
    cp [your .rbxlx file] .
    make unfurl
 
-This extracts all Lua_ scripts into ``./src``.  You may now apply all your normal tools, e.g., git, emacs, etc., to the code.  To recompose the ``.rbxlx`` file::
+This extracts all scripts into ``./src``.  You may now apply all your normal tools, e.g., git, emacs, etc.  To reconstitute the ``.rbxlx`` file::
 
    make furl
 
 Typical Linux Workflow
 ======================
-Identify the parent directory of your ``.rbxlx`` file in ``$HOME/.wine``.  A typical Wine_ installation might have it in ``$HOME/.wine/drive_c/users/$(whoami)``.  Assuming this,::
+Identify the parent directory of your ``.rbxlx`` file in ``$HOME/.wine``.  A typical Wine_ installation might have it in ``$HOME/.wine/drive_c/users/$(whoami)``.  Assuming this::
 
    ln -s $HOME/.wine/drive_c/users/$(whoami) ./drive_c
    ln -s drive_c/[your rbxlx file] .
@@ -38,3 +39,4 @@ The new LocalScript will now appear in ``./src`` under ``ReplicatedStorage/Sword
 .. _LocalScript: https://developer.roblox.com/en-us/api-reference/class/LocalScript
 .. _ReplicatedStorage: https://developer.roblox.com/en-us/api-reference/class/ReplicatedStorage
 .. _Projectile: https://github.com/bbatsov/projectile
+.. _Rojo: https://github.com/Roblox/rojo
