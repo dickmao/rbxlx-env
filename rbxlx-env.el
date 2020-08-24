@@ -6,7 +6,6 @@
 ;; Version: 0.1.0
 ;; Keywords: games tools
 ;; URL: https://github.com/dickmao/rbxlx
-;; Package-Requires: ((emacs "25.1") (dash "20190401") (dash-functional "20180107") (anaphora "20180618"))
 
 ;; This file is NOT part of GNU Emacs.
 
@@ -32,7 +31,6 @@
 ;;; Code:
 
 (require 'subr-x)
-(require 'anaphora)
 (require 'dash)
 (require 'dash-functional)
 
@@ -102,7 +100,7 @@
                        (lambda (node) (stringp (alist-get 'class (cl-second node))))
                        rbxlx-roblox))
                  (dir (make-temp-file "rbxlx-unfurl-" t)))
-            (mapcar (-rpartial 'rbxlx--tailrec nil dir) top)
+            (mapc (-rpartial 'rbxlx--tailrec nil dir) top)
             dir)
         (basic-save-buffer)
         (let (kill-buffer-query-functions)
