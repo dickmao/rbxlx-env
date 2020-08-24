@@ -22,6 +22,17 @@ jobs:
       with:
         version: ${{ matrix.emacs_version }}
 
+    - uses: actions/cache@v1
+      with:
+        path: ~/.cask
+        key: cask-001
+
+    - name: paths
+      run: |
+        echo "::add-path::$HOME/local/bin"
+        echo "::add-path::$HOME/local/cask/bin"
+        echo "::set-env name=LD_LIBRARY_PATH::$HOME/.local/lib"
+
     - name: apt-get
       if: startsWith(runner.os, 'Linux')
       run: |
