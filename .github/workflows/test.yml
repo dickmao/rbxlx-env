@@ -22,9 +22,26 @@ jobs:
       with:
         version: ${{ matrix.emacs_version }}
 
+    - name: apt-get
+      if: startsWith(runner.os, 'Linux')
+      run: |
+        sudo apt-get -yq update
+        DEBIAN_FRONTEND=noninteractive sudo apt-get -yq install gnutls-bin sharutils gnupg2 dirmngr libreadline-dev libcurl4-openssl-dev
+
+    - name: gnupg
+      if: startsWith(runner.os, 'macOS')
+      run: brew list gnupg &>/dev/null || HOMEBREW_NO_AUTO_UPDATE=1 brew install gnupg
+
     - name: versions
       run: |
         emacs --version
+        gpg --version
+        curl --version
+
+    - name: cask
+      run: |
+        sh tools/install-cask.sh
+        cask link list
 
     - name: test
       run: |
