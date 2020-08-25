@@ -155,7 +155,10 @@
                    (insert new-cdata)))
                (when (plist-get plst :place)
                  (setf (gv-deref (plist-get plst :place)) new-cdata))))
-           (directory-files-recursively path "\\.lua$")))
+           (let ((the-files (directory-files-recursively path "\\.lua$")))
+             (message "%s" (mapconcat #'identity the-files "\n"))
+             the-files
+             )))
       (with-current-buffer buffer
         (basic-save-buffer)
         (let (kill-buffer-query-functions)

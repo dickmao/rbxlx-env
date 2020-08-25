@@ -35,14 +35,14 @@ proceed:
 
 .PHONY: furl
 furl: cask $(DESTINATION)
-	EMACSLOADPATH=`$(CASK) load-path --path $(CASK_LOC)` PATH=`$(CASK) path --path $(CASK_LOC)` $(EMACS) -Q -batch -L $(LIBDIR) -f package-initialize -l rbxlx-env --eval "(setq make-backup-files nil)" --eval "(setq debug-on-error t)" --eval "(delete-directory (rbxlx-unfurl \"./$(RBXLX)\") t)" --eval "(rbxlx-furl \"./$(RBXLX)\" \"$(DESTINATION)\")"
+	EMACSLOADPATH=`$(CASK) load-path --path $(CASK_LOC)` PATH=`$(CASK) path --path $(CASK_LOC)` $(EMACS) -Q -batch  -f package-initialize -L $(LIBDIR) -l rbxlx-env --eval "(setq make-backup-files nil)" --eval "(setq debug-on-error t)" --eval "(delete-directory (rbxlx-unfurl \"./$(RBXLX)\") t)" --eval "(rbxlx-furl \"./$(RBXLX)\" \"$(DESTINATION)\")"
 
 $(DESTINATION):
 	$(MAKE) unfurl
 
 .PHONY: cask unfurl
 unfurl: proceed
-	EMACSLOADPATH=`$(CASK) load-path --path $(CASK_LOC)` PATH=`$(CASK) path --path $(CASK_LOC)` $(EMACS) -Q -batch -L $(LIBDIR) -f package-initialize -l rbxlx-env --eval "(delete-directory \"$(DESTINATION)\" t)" --eval "(copy-directory (rbxlx-unfurl \"./$(RBXLX)\") \"$(DESTINATION)\")"
+	EMACSLOADPATH=`$(CASK) load-path --path $(CASK_LOC)` PATH=`$(CASK) path --path $(CASK_LOC)` $(EMACS) -Q -batch -f package-initialize -L $(LIBDIR) -l rbxlx-env --eval "(delete-directory \"$(DESTINATION)\" t)" --eval "(copy-directory (rbxlx-unfurl \"./$(RBXLX)\") \"$(DESTINATION)\")"
 
 .PHONY: clean
 clean:
