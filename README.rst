@@ -8,7 +8,7 @@ Rojo_ does something similar, with considerably more fanfare.
    :target: https://github.com/dickmao/rbxlx-env/actions
    :alt: Build Status
 
- Install
+Install
 =========
 Clone this repo then::
 
