@@ -22,7 +22,7 @@ Basic Usage
    cp [your .rbxlx file] .
    make unfurl
 
-This extracts all scripts into ``./src``.  You may now apply all your normal tools, e.g., git, emacs, etc.  To reconstitute the ``.rbxlx`` file from (the presumably modified) ``./src``
+This extracts all scripts into ``./src``.  You may now apply all your normal tools, e.g., git, emacs, luacheck, etc.  To reconstitute the ``.rbxlx`` file from (the presumably modified) ``./src``
 ::
 
    make furl
