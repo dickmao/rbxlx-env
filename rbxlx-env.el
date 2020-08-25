@@ -147,12 +147,11 @@ Same argument meanings for KEY ALIST DEFAULT REMOVE and TESTFN."
         (let (kill-buffer-query-functions)
           (kill-buffer))))))
 
-;; (print-out (caddr rbxlx-roblox))
-
 ;;;###autoload
 (defun rbxlx-furl (rbxlx path)
   "Walk PATH and replace corresponding Source nodes in `rbxlx-insertion-points'."
-  (let* ((skip (length (split-string path "/")))
+  (let* ((path (file-relative-name path))
+         (skip (length (split-string path "/")))
          (truename (abbreviate-file-name (file-truename rbxlx)))
          (number (nthcdr 10 (file-attributes truename)))
          (buffer (find-file-noselect-1 (create-file-buffer rbxlx)
@@ -172,7 +171,8 @@ Same argument meanings for KEY ALIST DEFAULT REMOVE and TESTFN."
                     (delete-region pos (match-beginning 0)))))))
           (mapcar
            (lambda (lua)
-             (-when-let* ((key (reverse (cl-subseq
+             (-when-let* ((lua (file-relative-name lua))
+                          (key (reverse (cl-subseq
                                          (split-string (directory-file-name (file-name-directory lua)) "/")
                                          skip)))
                           (plst (rbxlx-alist-get key rbxlx-insertion-points nil nil #'equal))
@@ -196,10 +196,7 @@ Same argument meanings for KEY ALIST DEFAULT REMOVE and TESTFN."
                    (insert new-cdata)))
                (when (plist-get plst :place)
                  (setf (gv-deref (plist-get plst :place)) new-cdata))))
-           (let ((the-files (directory-files-recursively path "\\.lua$")))
-             (message "%s" (mapconcat #'identity the-files "\n"))
-             the-files
-             )))
+           (directory-files-recursively path "\\.lua$")))
       (with-current-buffer buffer
         (basic-save-buffer)
         (let (kill-buffer-query-functions)
