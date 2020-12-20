@@ -32,7 +32,7 @@ Identify the parent directory of your ``.rbxlx`` file in ``$HOME/.wine``.  A typ
 
    cd rbxlx-env
    ln -s $HOME/.wine/drive_c/users/$(whoami) ./drive_c
-   ln -s drive_c/[your rbxlx file] .
+   ln -s ./[your rbxlx file] drive_c
    make
 
 Continue using Roblox Studio for all non-editing tasks, i.e., creating and manipulating game objects in Explorer.  Suppose you create a new LocalScript_ in ReplicatedStorage_ and name it "Sword", and now want to edit it with a `reasonable editor`_.  Save in Studio and run::
